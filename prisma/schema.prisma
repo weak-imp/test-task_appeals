@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Appeal {
+  id           Int          @id @default(autoincrement())
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+  topic        String
+  text         String
+  status       AppealStatus @default(NEW) @map("status")
+  resolution   String? // текст с решением проблемы
+  cancelReason String? // текст с причиной отмены
+}
+
+enum AppealStatus {
+  NEW
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
